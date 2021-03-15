@@ -10,5 +10,6 @@ router.get('/', (req, res) => {
 
 router.get('/users', UserController.list);
 router.post('/users', UserController.store);
+router.put('/users/:id', UserController.update);
 
 export default router;
