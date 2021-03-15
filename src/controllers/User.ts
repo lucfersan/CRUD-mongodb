@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import UserModel from '../models/User';
+import { hash } from 'bcryptjs';
 
 class User {
   async list(req: Request, res: Response) {
@@ -18,10 +19,12 @@ class User {
       return res.json({ error: 'Email already registered.' });
     }
 
+    const hashedPassword = await hash(password, 10);
+
     const user = new UserModel({
       name,
       email,
-      password,
+      password: hashedPassword,
     });
 
     await user.save();
