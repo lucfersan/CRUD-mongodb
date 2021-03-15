@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 
+import mongoose from 'mongoose';
+
 import UserModel from '../models/User';
 import { hash } from 'bcryptjs';
 
@@ -34,6 +36,11 @@ class User {
 
   async update(req: Request, res: Response) {
     const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.json({ error: 'Invalid id.' });
+    }
+
     const { name, email, password } = req.body;
 
     const user = await UserModel.findOne({ _id: id });
@@ -53,6 +60,24 @@ class User {
     const updatedUser = await UserModel.findOne({ _id: id });
 
     return res.json(updatedUser);
+  }
+
+  async delete(req: Request, res: Response) {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.json({ error: 'Invalid id.' });
+    }
+
+    const user = await UserModel.findOne({ _id: id });
+
+    if (!user) {
+      return res.json({ error: 'User not found.' });
+    }
+
+    await user.remove();
+
+    return res.status(204).json();
   }
 }
 
