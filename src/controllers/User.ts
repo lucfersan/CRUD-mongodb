@@ -51,7 +51,7 @@ class User {
 
     const hashedPassword = await hash(password, 10);
 
-    await user.update({
+    await user.updateOne({
       name,
       email,
       password: hashedPassword,
