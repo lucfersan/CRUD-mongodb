@@ -45,7 +45,7 @@ I worked with docker to create the containers for the database.
    ```sh
    yarn
    ```
-3. Add a .env.development file on the root of the project with the JWT_SECRET
+3. Add a .env.development file on the root of the project with the secrets
    ```sh
    JWT_SECRET=example
    EXPIRES_IN=example
